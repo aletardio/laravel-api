@@ -11,7 +11,10 @@ class ProjectController extends Controller
 
     public function index()
     {
-        $projects = Project::paginate(6);
+        // $projects = Project::paginate(6); Recupero i projects suddivisi per pagina, in questo caso suddive i projects in 6 per pagina
+
+        // Recupero i projects con i dati relativi alla tipologia di appartenenza e le tecnologie
+        $projects = Project::with(['type', 'technologies'])->orderBy('id', 'desc')->paginate(6);
 
         return response()->json([
             'success' => true,
