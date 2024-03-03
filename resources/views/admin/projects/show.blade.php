@@ -7,6 +7,8 @@
                 <h3 class="text-uppercase">{{ $project->title }}</h3>
                 @if ($project->cover_image)
                     <img src="{{ asset('/storage/' . $project->cover_image) }}" alt="{{ $project->title }}" class="w-50">
+                @else
+                    <img src="{{ asset('/img/placeholder.webp') }}" alt="{{ $project->title }}" class="w-50">
                 @endif
                 <h5 class="my-2">
                     <strong>{{ !empty($project->type->name) ? $project->type->name : 'Senza tipo' }}</strong>
