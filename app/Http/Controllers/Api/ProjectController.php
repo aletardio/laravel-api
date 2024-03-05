@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Project;
 
 class ProjectController extends Controller
@@ -15,6 +17,20 @@ class ProjectController extends Controller
 
         // Recupero i projects con i dati relativi alla tipologia di appartenenza e le tecnologie
         $projects = Project::with(['type', 'technologies'])->orderBy('id', 'desc')->paginate(6);
+
+        return response()->json([
+            'success' => true,
+            'results' => $projects
+        ]);
+    }
+
+    public function get_type_projects($slug)
+    {
+        $projects = DB::table('projects')
+            ->join('types', 'projects.type_id', '=', 'types.id')
+            ->select('projects.*', 'types.slug as typeSlug')
+            ->where('types.slug', $slug)
+            ->paginate(3);
 
         return response()->json([
             'success' => true,
@@ -34,8 +50,7 @@ class ProjectController extends Controller
         }
 
         return response()->json([
-            'success' => false,
-            'error' => 'Progetto non trovato'
+            'success' => false
         ]);
     }
 }
