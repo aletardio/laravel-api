@@ -39,5 +39,9 @@ class LeadController extends Controller
 
         // Invio la mail
         Mail::to('info@boolfolio.com')->send(new NewContact($new_lead));
+
+        return response()->json([
+            'success'   => true,
+        ]);
     }
 }
